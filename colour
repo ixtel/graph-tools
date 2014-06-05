@@ -1,0 +1,3 @@
+BEG_G { setDflt($, "N", 'colorscheme', 'set13') }
+N { aset($, 'style', 'filled') }
+N { aset($, 'color', ARGV[$.name]) }
