@@ -1,0 +1,7 @@
+BEGIN {node_t n; int deg[]}
+E{deg[head]++;deg[tail]++;}
+END_G {
+ for (deg[n]) {
+  printf("deg[%s] = %d\n", n.name, deg[n]);
+ }
+}
