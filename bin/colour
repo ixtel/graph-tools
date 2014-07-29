@@ -1,0 +1,17 @@
+!#/bin/bash
+r=1 # colouring number. Look at row 2r of the .res file.
+n=1
+p=$(( 2 * r ))
+s=`sed "$p!d" $1` #generalise from 2 to 2r
+
+while [ -n "$s" ]
+do
+ temp=${s#?}
+ char=${s%"$temp"}
+ if [ "$char" != " " ]; then
+  colour=`palette $char` # set colour based on current label value
+  printf "$n [style=filled, color=$colour];\n"
+  n=$((n+1))
+ fi
+ s=$temp
+done

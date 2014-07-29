@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo 'graph{'
+sed -r -e '/^[cp]/d'\
+       -e 's/[ae] ([0-9]+)\s([0-9]+)/ \1 -- \2;/g'\
+       $1
+echo '}'

@@ -1,0 +1,12 @@
+#!/bin/bash
+case $1 in
+ 1) COLOUR=red ;;
+ 2) COLOUR=blue ;;
+ 3) COLOUR=green ;;
+ 4) COLOUR=yellow ;;
+ 5) COLOUR=orange;;
+ 6) COLOUR=maroon ;;
+ 7) COLOUR=teal ;;
+ *) COLOUR=black ;;
+esac
+echo $COLOUR
