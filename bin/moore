@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Usage:
+# echo `geng -qc 5` | moore.sh
+#
+# Note: Do not use for values greater than 6.
+
+read g6raw
+g6proc=$(echo $g6raw |
+         awk '{  print "\"" $1 "\"" "," }' RS=' ' ORS=' ' |
+         sed '$s/. $//')
+g6list="["${g6proc}"]"
+
+s="
+load(graphs)$
+
+moore1(G):=
+ (
+  K: max_degree(G)[1],
+  k: min_degree(G)[1],
+  d: diameter(G),
+  g: girth(G),
+  is_connected(G) and is(g = 2*d + 1 and k = K)
+ )$
+
+moore2(g):=
+ (
+  k: max_degree(g)[1],
+  d: diameter(g),
+  expected_order: 1 + k*(((k-1)^d - 1)/(k - 2)),
+  is(graph_order(g) = expected_order)
+ )$
+
+moore3(g):=
+ (
+  k: min_degree(g)[1],
+  d: (girth(g) - 1)/2,
+  expected_order: 1 + k*(((k-1)^d - 1)/(k - 2)),
+  is(graph_order(g) = expected_order)
+ )$
+
+g6list: $g6list$
+
+glist: map(graph6_decode, g6list)$
+moore_graphs: sublist(glist, moore1)$
+map(graph6_encode, moore_graphs);
+"
+
+maxima --very-quiet --batch-string="$s"\
+  | tail -n 1\
+  | tr -d ' \t\r\f[]'\
+  | tr ',' '\n'
+
