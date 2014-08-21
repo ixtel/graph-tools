@@ -1,0 +1,15 @@
+#!/bin/bash
+
+while read
+do
+ s="
+ load(graphs)$
+ g: graph6_decode(\"$REPLY\")$
+ graph_size(g);
+ "
+ maxima --very-quiet --batch-string="$s"\
+  | tail -n 1\
+  | tr -d ' \t\r\f[]'\
+  | tr ',' '\n'
+done
+

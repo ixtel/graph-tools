@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Usage:
+# echo `geng -qc 7` | sizes_slow.sh
+#
+# Note: Do not use for values greater than 7.
+
+read g6raw
+g6proc=$(echo $g6raw |
+         awk '{  print "\"" $1 "\"" "," }' RS=' ' ORS=' ' |
+         sed '$s/. $//')
+g6list="["${g6proc}"]"
+
+s="
+load(graphs)$
+
+g6list: $g6list$
+glist: map(graph6_decode, g6list)$
+l:map(graph_size, glist)$
+printf(true, \"~{~a,~}\", l);
+"
+
+maxima -q --very-quiet --batch-string="$s"\
+ | tail -n 1\
+ | tr -d ' \t\r\f'\
+ | tr ',' '\n'\
+ | head -n -1
+
