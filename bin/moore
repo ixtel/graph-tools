@@ -27,15 +27,15 @@ moore2(g):=
  (
   k: max_degree(g)[1],
   d: diameter(g),
-  expected_order: 1 + k*(((k-1)^d - 1)/(k - 2)),
-  is(graph_order(g) = expected_order)
+  expected_order: 1 + k*(((k - 1)^d - 1)/(k - 2)),
+  is_connected(G) and is(graph_order(g) = expected_order)
  )$
 
 moore3(g):=
  (
   k: min_degree(g)[1],
   d: (girth(g) - 1)/2,
-  expected_order: 1 + k*(((k-1)^d - 1)/(k - 2)),
+  expected_order: 1 + k*(((k - 1)^d - 1)/(k - 2)),
   is(graph_order(g) = expected_order)
  )$
 
