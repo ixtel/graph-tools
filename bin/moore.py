@@ -19,41 +19,30 @@ def moore_order(d, k):
     """
     return 1 + k*sum([(k - 1)**i for i in range(d)])
 
-def moore(G):
+def moore1(G):
     """
     Decide if G is a Moore graph or not, based on girth and diameter.
     """
-    degree = G.degree().values()
-    K = max(degree)
-    k = min(degree)
-    if is_connected(G) and k == K:
-      iG = Graph(edges = G.edges())
-      return iG.girth() == 2*iG.diameter() + 1
+    return G.girth() == 2*G.diameter() + 1
 
 def moore2(G):
     """
     Decide if G is a Moore graph or not, based on order and diameter.
     """
-    degree = G.degree().values()
-    K = max(degree)
-    k = min(degree)
-    if is_connected(G) and k == K:
-      iG = Graph(edges = G.edges())
-      return G.order() == moore_order(iG.diameter(), K)
+    K = max(G.degree())
+    return G.vcount() == moore_order(G.diameter(), K)
 
 def moore3(G):
     """
-    Decide if G is a Moore graph or not, based on order and girth.
+    Decide if iG is a Moore graph or not, based on order and girth.
     """
-    degree = G.degree().values()
-    K = max(degree)
-    k = min(degree)
-    if is_connected(G) and k == K:
-      iG = Graph(edges = G.edges())
-      return G.order() == moore_order((iG.girth() - 1)/2, k)
+    k = min(G.degree())
+    return G.vcount() == moore_order((G.girth() - 1)/2, k)
 
 if __name__=="__main__":
     for line in stdin.readlines():
         stripped_line = line.rstrip()
         g = parse_graph6(stripped_line)
-        if moore3(g): print stripped_line
+        G = Graph(edges = g.edges())
+        if moore3(G):
+            print stripped_line
