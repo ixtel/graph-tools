@@ -1,0 +1,21 @@
+The approach of having gist folders and symlinks does have an
+overhead:
+
+$ time geng -qc 7 | moore.py
+FCp`_
+F~~~w
+
+real	0m1.457s
+user	0m0.532s
+sys	0m0.096s
+matthew@asa:~$ time geng -qc 7 | ~/workspace/graphs/graph-tools/bin/moore-py/moore.py
+FCp`_
+F~~~w
+
+real	0m0.844s
+user	0m0.496s
+sys	0m0.116s
+
+For the consistency of the graph-tools project it doesn't make sense to have a
+symbolic link either. So for now we will just have to manually keep the two
+versions up-to-date.
