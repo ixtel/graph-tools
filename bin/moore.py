@@ -44,5 +44,6 @@ if __name__=="__main__":
         stripped_line = line.rstrip()
         g = parse_graph6(stripped_line)
         G = Graph(edges = g.edges())
-        if moore3(G):
+        moore = moore3
+        if moore(G):
             print stripped_line
