@@ -1,5 +1,3 @@
-import sys
-
 def colour_edge(G, e, colour):
     G.edge[e[0]][e[1]]['colour'] = colour
 
@@ -16,17 +14,10 @@ def choice_greedy(G, e, palette):
     
 def edge_colouring(G, choice = choice_greedy):
     num_of_edges = len(G.edges())
-    num_coloured = 0
     max_degree = max(G.degree().values())
     palette = range(0, 2*max_degree)
     for e in G.edges():
         colour_edge(G, e, choice(G, e, palette))
-        num_coloured += 1
-        progress = 100.0*num_coloured/num_of_edges
-        sys.stdout.write("Progress: %d%%   \r" % progress)
-        sys.stdout.flush()
-    sys.stdout.write("\nDone!")
-    sys.stdout.flush()
 
 def is_proper_edge(G):
     for u in G.node:
