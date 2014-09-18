@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+
+"""
+Usage:
+    $ geng -qc 3 | edge_colouring.py
+    2
+    3
+"""
+
+from sys import stdin
+
+from networkx import parse_graph6
+
 def colour_edge(G, e, colour):
     """
     Assign 'colour' to edge 'e' in graph 'G'.
@@ -50,3 +63,10 @@ def n_colours_edge(G):
     for u, v in G.edges():
         colours.append(G.edge[u][v]['colour'])
     return len(set(colours))
+
+if __name__=="__main__":
+    for line in stdin.readlines():
+        stripped_line = line.rstrip()
+        G = parse_graph6(stripped_line)
+        edge_colouring(G)
+        print n_colours_edge(G)
