@@ -42,3 +42,11 @@ def is_proper_edge(G):
             return False
     return True
 
+def n_colours_edge(G):
+    """
+    Determines how many colours are used on edges of G.
+    """
+    colours = []
+    for u, v in G.edges():
+        colours.append(G.edge[u][v]['colour'])
+    return len(set(colours))
