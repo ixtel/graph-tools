@@ -1,0 +1,18 @@
+defstruct(graph (V, E))$
+
+path(G, path):=block(
+ [g: G, p: path, result: true],
+ for i:1 thru length(p) do (
+  if not(member(p[i], g@V))
+  then (
+   result : result and is(set(p[i-1], p[i+1]) = assoc(p[i], g@E))
+  )
+ ),
+ return(result)
+)$
+
+euler_path(G, path):=block(
+ [g: G, p: path],
+ return(is(path(g, p)) and is(length(p) = 2*length(g@E) + 1))
+)$
+
