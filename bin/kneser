@@ -1,0 +1,14 @@
+#!/bin/bash
+
+n=5
+k=2
+
+maxima --very-quiet --batch-string="\
+  load(graphs)$
+  s : powerset({`seq 1 $n | paste -s -d,`}, $k)$
+  g : make_graph(s, disjointp)$
+  graph6_encode(g);
+  "\
+ | tail -n 1\
+ | tr -d ' \t\r\f'\
+ | labelg -q
