@@ -1,14 +1,42 @@
+/* multigraphs.mac */
+
+/* Multigraph structure. */
 defstruct(graph(V, E))$
 
+/* Decide whether P is a path of G or not. */
 path(G, P):=block(
  [result: true],
- for i:2 step 2 thru (length(P)-1)/2 do (
+ for i:2 step 2 thru (length(P)-1) do (
    result : result and is({P[i-1], P[i+1]} = assoc(P[i], G@E))
  ),
  return(result)
 )$
 
+/* Decide whether P is an Euler path of G or not. */
 euler_path(G, P):=(
  is(path(G, P)) and is(length(P) = 2*length(G@E) + 1)
 )$
 
+/* What exactly does this do? */
+f(G, P, index):=block(
+ [i:index],
+ if(i=1) then return(assoc(P[i],G@E))
+ elseif(i=(2*length(P) + 1)) then return(assoc(P[(i-1)/2],G@E))
+ elseif(evenp(i)) then return(set(P[i/2]))
+ else intersect(assoc(P[(i-1)/2],G@E), assoc(P[(i+1)/2],G@E))
+)$
+
+/* Find all paths in G having edges in order defined by list P */
+all_paths(G, P):=block(
+ [q,r],
+ q : map(lambda ([j], f(G, P, j)), makelist(j, j, 2*length(G@E) + 1)),
+ r : apply(cartesian_product, q),
+ sublist(listify(r), lambda ([j], path(G, j)))
+)$
+
+euler_paths(G):=block(
+ [],
+ EE: map(first,G@E),
+ PP: permutations(EE),
+ listify(map(flatten, map(lambda ([j], all_paths(G, j)), PP)))
+)$
